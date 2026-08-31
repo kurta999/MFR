@@ -7,7 +7,7 @@
 - **Source:** a single monolithic script — `nmss.pwn` (~67,000 lines, ~1,135 commands, ~840 functions)
 - **Languages:** Hungarian and English (built-in per-player language system, `/lang`)
 
-> ⚠️ **This gamemode is discontinued and not currently runnable.** The MySQL schema files and a few include files are missing — see [Missing parts](#missing-parts) below. It is shared for nostalgia and as a reference; maybe somebody will benefit from it.
+> ⚠️ **This gamemode is discontinued.** The original MySQL schema and several include/source files were lost, but they have since been reconstructed: the code **compiles again** (see [BUILDING.md](BUILDING.md)) and a rebuilt schema is provided in [mfr_schema.sql](mfr_schema.sql). It is shared for nostalgia and as a reference; maybe somebody will benefit from it.
 
 ## Features
 
@@ -79,13 +79,11 @@ Compiles with the SA-MP Pawn compiler against:
 
 Server plugins required: MySQL, streamer, sscanf, YSF, mapandreas, crashdetect, gvar, GeoIP, mSelection.
 
-## Missing parts
+## Recovery status
 
-- **MySQL schema** — no `.sql` files survive. The code references ~60 tables that need to be reconstructed from the queries in `nmss.pwn`, most importantly: `players`, `houses`, `biznis`, `clans` (+ `clans_log`, `clans_banklog`, `clans_activation`), `racedata`, `custom_dm`, `bans` / `bans_serial`, `savepositions`, `holdingobjects` (+ `_set`, `_v`, `_vset`), `teleports`, `musiclist`, `config`, `adminlog`, `connections`, `szintek`, `vehicle_components`, `goldpot_data`, `killlist`, `givecash`, plus logging/report tables (`kicks`, `chat`, `pm`, `reports_*`, `namechanges*`, `faillogins*`, …) and SMF forum tables.
-- **Include files** — some includes (e.g. `gvar`, `sniperfix`, `Geoip_Plugin`, `zcmd2`, this era's YSI/YSF versions) are not bundled and must be hunted down in matching 2016-era versions.
-- Assorted filterscripts and map files referenced by the mode are not part of this repository.
-
-**Planned recovery steps:** reconstruct the database schema from the queries in the code, then regenerate the missing functions/includes so the mode compiles and runs again.
+- ✅ **MySQL schema** — reconstructed from the ~700 queries in the code as [mfr_schema.sql](mfr_schema.sql) (69 tables, positional column layouts preserved for the old `cache_get_row_*` API, verified against a live MariaDB).
+- ✅ **Build** — the mode **compiles** with the community Pawn compiler 3.10.10: run `./build.sh` (see [BUILDING.md](BUILDING.md)). The include pack (2016-era-compatible versions of MySQL R33, streamer, sscanf2, YSF, foreach, a_zones, mSelection…) is bundled in `include/`, and the lost files (`NMSS_config.pwn`, `NMSS_vehicles.pwn`, `zcmd2`, minimal YSI shims, `Geoip_Plugin`, `sniperfix`) were reconstructed from how the code uses them.
+- ⚠️ **Not yet done** — runtime testing with the actual server + plugins; seed data for `teleports`/`szintek`/`vehicle_components` etc.; the lost static vehicle fleet and a few placeholder tables (vehicle prices, petrol-cap offsets, mod compatibility) noted in BUILDING.md; assorted filterscripts and `scriptfiles/NMSS/` data files referenced by the mode.
 
 ## License
 

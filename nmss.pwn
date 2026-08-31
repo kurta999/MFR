@@ -14818,7 +14818,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(GetGVarInt("HouseRiaszto", houseid) == 0)
 					{
 		                SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_NINCS_A_HAZADBAN_RIASZTO"));
-						goto Ide;
+						goto Ide_a;
 					}
 
 					SendClientMessage(playerid, COLOR_YELLOW, LANG(playerid, "MSG_TOROLTED_A_RIASZTOT_A_HAZADBOL"));
@@ -14828,7 +14828,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(GetGVarInt("HouseRiaszto", houseid))
 					{
 		                SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_A_HAZADBAN_MAR_VAN_RIASZTO"));
-						goto Ide;
+						goto Ide_a;
 					}
 
 					MoneyCheck(playerid, 250000);
@@ -14839,7 +14839,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(GetGVarInt("HouseRiaszto", houseid) == 2)
 					{
 		                SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_A_HAZADBAN_MAR_VAN_EGY"));
-						goto Ide;
+						goto Ide_a;
 					}
 
 					MoneyCheck(playerid, 450000);
@@ -14851,7 +14851,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			mysql_format(1, query, sizeof(query), "UPDATE `houses` SET `riaszto` = %d WHERE `id` = %d", listitem, houseid);
 			mysql_function_query(1, query, false, "", "");
 
-			Ide:
+			Ide_a:
 			if(g_pOtherFlags[playerid] & e_HOUSEMENU) cmd_housemenu(playerid, "");
 		}
 		case DIALOG_HOUSEHACKDETECTOR:
@@ -14866,7 +14866,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(GetPlayerMoneyEx(playerid) < 500000)
 				{
 					SendClientMessagef(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_NINCS_ELEG_PENZED_LEGALABB_2"));
-					goto Ide;
+					goto Ide_b;
 				}
 				GivePlayerMoneyEx(playerid, -500000, "HackDetectorBuy");
 				SetGVarInt("Hackdetector", 1, houseid);
@@ -14887,7 +14887,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 			}
 
-			Ide:
+			Ide_b:
 			if(g_pOtherFlags[playerid] & e_HOUSEMENU) cmd_housemenu(playerid, "");
 		}
 		case DIALOG_HOUSEMENU - 1:
@@ -16994,7 +16994,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			new
 			    dmid_ = GetPVarInt(playerid, "DMSelect"); // FASZOPÓ RETKES PAWN EZVÓT AZ UTOLSÓ H NAGOYBB DOLGOT CSINÁLTAM EBBE A BUGOS FOSBA - dmid"_"   -.-
-			if(!response) goto Ide;
+			if(!response) goto Ide_c;
 
 			switch(GetPVarInt(playerid, "EditName"))
 			{
@@ -17003,7 +17003,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(!(3 <= strlen(inputtext) <= sizeof(g_szDMName[])))
 					{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_NEM_MEGFELO_NEV_HOSSZSAG"));
-						goto Ide;
+						goto Ide_c;
 					}
 
 					// Ha minden fasza, átnevezzük a DM-et
@@ -17018,7 +17018,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(!(1 <= strlen(inputtext) <= sizeof(g_szDMCommand[])))
 					{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_TUL_HOSSZU_A_PARANCS_1"));
-						goto Ide;
+						goto Ide_c;
 					}
 
 					// Ha nem írt be semmit, vagy csillagot írt be, akkor a parancs törlése
@@ -17032,7 +17032,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						if(inputtext[0] != '/')
 						{
 							SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_HULYESEGET_IRTAL_BE_A"));
-							goto Ide;
+							goto Ide_c;
 						}
 
 						// Létrezõ parancsot nem lehet DM parancsnak beállítani
@@ -17042,7 +17042,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							if(!strcmp(country, inputtext, true))
 							{
 								SendClientMessagef(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_SAJNALJUK_DE_AZ__NEVU"), inputtext);
-								goto Ide;
+								goto Ide_c;
 							}
 						}
 
@@ -17061,13 +17061,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		   			if(sscanf(inputtext, "n", limit))
 		   			{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_A_BEIRT_SZAM_NEM_MEGFELO"));
-						goto Ide;
+						goto Ide_c;
 					}
 
 					if(!(2 <= limit <= MAX_PLAYERS))
 					{
 						SendClientMessagef(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_NEM_MEGFELELO_ERTEKET"), MAX_PLAYERS);
-						goto Ide;
+						goto Ide_c;
 					}
 
 					g_DMMaxPlayers[dmid_] = limit;
@@ -17084,13 +17084,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		   			if(sscanf(inputtext, "n", limit))
 		   			{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_A_BEIRT_SZAM_NEM_MEGFELO"));
-						goto Ide;
+						goto Ide_c;
 					}
 
 					if(!(0 <= limit <= 1024))
 					{
 						SendClientMessagef(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_NEM_MEGFELELO_ERTEKET_1"));
-						goto Ide;
+						goto Ide_c;
 					}
 
 					g_DMMaxKills[dmid_] = limit;
@@ -17124,13 +17124,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		   			if(sscanf(inputtext, "f", gravity))
 		   			{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_A_BEIRT_SZAM_NEM_MEGFELO"));
-						goto Ide;
+						goto Ide_c;
 					}
 
 					if(!(-0.1 <= gravity <= 0.2))
 					{
 						SendClientMessagef(playerid, COLOR_RED, "HIBA: Nem megfelelõ értéket adtál meg gravitációnak.");
-						goto Ide;
+						goto Ide_c;
 					}
 
 					g_DMGravity[dmid_] = gravity;
@@ -17141,13 +17141,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 			}
 
-			Ide:
+			Ide_c:
 			ShowDMEditDialog(playerid, dmid_);
 			return 1;
 		}
 		case DIALOG_CREATEDM_TEAM:
 		{
-			if(!response) goto Ide;
+			if(!response) goto Ide_d;
 
 			new
 			    dmid_ = g_pDMID[playerid]; // FASZOPÓ RETKES PAWN EZVÓT AZ UTOLSÓ H NAGOYBB DOLGOT CSINÁLTAM EBBE A BUGOS FOSBA - dmid"_"   -.-
@@ -17158,7 +17158,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(!(0 <= strlen(inputtext) <= 11))
 					{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_NEM_MEGFELELO_AZ_ELSO"));
-						goto Ide;
+						goto Ide_d;
 					}
 
 					SetPVarString(playerid, "TDM_1", inputtext);
@@ -17169,7 +17169,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(!(0 <= strlen(inputtext) <= 11))
 					{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_HIBA_NEM_MEGFELELO_A_MASODIK"));
-						goto Ide;
+						goto Ide_d;
 					}
 
 					SetPVarString(playerid, "TDM_2", inputtext);
@@ -17182,13 +17182,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		   			if(sscanf(inputtext, "n", hex))
 		   			{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_NEM_MEGFELELO_SZINKOD"));
-						goto Ide;
+						goto Ide_d;
 					}
 
 					if(IsBlack(hex))
 		   			{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_NEM_LEHET_FEKETE"));
-						goto Ide;
+						goto Ide_d;
 					}
 
 					SetPVarInt(playerid, "TDM_X1", hex);
@@ -17204,13 +17204,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		   			if(sscanf(inputtext, "n", color2))
 		   			{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_NEM_MEGFELELO_SZINKOD"));
-						goto Ide;
+						goto Ide_d;
 					}
 
 					if(IsBlack(color2))
 		   			{
 						SendClientMessage(playerid, COLOR_RED, LANG(playerid, "MSG_NEM_LEHET_FEKETE"));
-						goto Ide;
+						goto Ide_d;
 					}
 
 					GetPVarString(playerid, "TDM_1", szName1, sizeof(szName1));
@@ -17242,7 +17242,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					return 1;
 				}
 			}
-			Ide:
+			Ide_d:
 			ShowCreateTDMDialog(playerid);
 		}
 
